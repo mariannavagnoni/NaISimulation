@@ -30,7 +30,7 @@ void EASYRunAction::BeginOfRunAction(const G4Run *run){
 	strRunID << runID;
 
 	//analysisManager->OpenFile("output" + strRunID.str() + ".root"); // you have a output file for each run
-	analysisManager->OpenFile("../../SimNaI/output/pos20.root");
+	analysisManager->OpenFile("output.root");
 
 }
 
