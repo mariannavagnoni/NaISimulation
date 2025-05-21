@@ -15,10 +15,21 @@ void EASYSensitiveDetector::EndOfEvent(G4HCofThisEvent *HCE){
 
 	G4AnalysisManager *analysisManager = G4AnalysisManager::Instance();
 
-	analysisManager->FillH1(0, fTotalEnergyDeposited); // one histo --> 0
+	/*Gaussian smearing to simulate the detector resolution*/
+	G4double resolution = 0.04; // 40% resolution
+	G4double sigma_res = (resolution / 2.355) * fTotalEnergyDeposited; 
+
+	// Smear energy with Gaussian
+	G4double smearedEnergy = G4RandGauss::shoot(fTotalEnergyDeposited, sigma_res);
+
+	// line without resolution
+	//analysisManager->FillH1(0, fTotalEnergyDeposited); // one histo --> 0
+	// line with resolution
+	analysisManager->FillH1(0, smearedEnergy);
 
 	// Print the total energy deposited in this event
-	G4cout << "Deposited energy: " << fTotalEnergyDeposited << G4endl; 
+	G4cout << "Deposited energy (true): " << fTotalEnergyDeposited << " | (smeared): " << smearedEnergy << G4endl;
+	//G4cout << "Deposited energy: " << fTotalEnergyDeposited << G4endl; 
 }
 
 G4bool EASYSensitiveDetector::ProcessHits(G4Step *aStep, G4TouchableHistory *){

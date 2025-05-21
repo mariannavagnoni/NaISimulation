@@ -9,6 +9,9 @@
 #include "G4AnalysisManager.hh"
 #include "G4RunManager.hh"
 
+// to create a gaussian smearing to the energy deposit --> simulate the resolution of the detector
+#include "Randomize.hh"
+
 class EASYSensitiveDetector : public G4VSensitiveDetector{
 	public:
 		EASYSensitiveDetector(G4String);
